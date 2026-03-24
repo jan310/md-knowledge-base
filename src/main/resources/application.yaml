@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: md-knowledge-base
+  cache:
+    cache-names: userIdCache
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=60m
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_ISSUER_URI}
+          audiences: ${OAUTH2_AUDIENCE}
