@@ -1,4 +1,4 @@
-package com.janondra.mdknowledgebase.user.repository;
+package com.janondra.mdknowledgebase.user.repository.exceptions;
 
 import org.springframework.dao.DataIntegrityViolationException;
 

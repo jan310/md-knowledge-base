@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS documents (
     file_name               TEXT        NOT NULL,
     tags                    TEXT[]      NOT NULL,
     content                 TEXT        NOT NULL,
-    questions               TEXT[]      NOT NULL,
+    questions               TEXT[]      NOT NULL DEFAULT '{}',
     content_search_vector   tsvector    GENERATED ALWAYS AS (to_tsvector('simple', content)) STORED,
     created_at              timestamptz NOT NULL DEFAULT now(),
     updated_at              timestamptz NOT NULL DEFAULT now(),
@@ -24,14 +24,19 @@ CREATE TABLE IF NOT EXISTS documents (
 );
 
 -- INDICES
-CREATE INDEX IF NOT EXISTS idx_documents_owner_id
-    ON documents (owner_id);
+CREATE INDEX IF NOT EXISTS idx_users_daily_mail_enabled
+    ON users (id)
+    WHERE daily_mail_enabled = true;
 
 CREATE INDEX IF NOT EXISTS idx_documents_tags
     ON documents USING GIN (tags);
 
 CREATE INDEX IF NOT EXISTS idx_documents_content_search_vector
     ON documents USING GIN (content_search_vector);
+
+CREATE INDEX IF NOT EXISTS idx_documents_has_questions
+    ON documents (owner_id)
+    WHERE questions <> '{}';
 
 -- FUNCTIONS
 CREATE OR REPLACE FUNCTION fun_set_updated_at()

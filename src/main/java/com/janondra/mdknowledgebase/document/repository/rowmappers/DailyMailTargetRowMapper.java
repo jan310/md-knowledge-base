@@ -1,22 +1,19 @@
-package com.janondra.mdknowledgebase.document.repository;
+package com.janondra.mdknowledgebase.document.repository.rowmappers;
 
-import com.janondra.mdknowledgebase.document.model.Document;
+import com.janondra.mdknowledgebase.document.model.DailyMailTarget;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
-public class DocumentRowMapper implements RowMapper<Document> {
+public class DailyMailTargetRowMapper implements RowMapper<DailyMailTarget> {
     @Override
-    public Document mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Document(
-            rs.getObject("id", UUID.class),
-            rs.getObject("owner_id", UUID.class),
+    public DailyMailTarget mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new DailyMailTarget(
+            rs.getString("email"),
             rs.getString("file_name"),
-            toStringList(rs.getArray("tags")),
             rs.getString("content"),
             toStringList(rs.getArray("questions"))
         );

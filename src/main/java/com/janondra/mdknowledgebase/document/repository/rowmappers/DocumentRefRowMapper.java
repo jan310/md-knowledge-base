@@ -1,4 +1,4 @@
-package com.janondra.mdknowledgebase.document.repository;
+package com.janondra.mdknowledgebase.document.repository.rowmappers;
 
 import com.janondra.mdknowledgebase.document.model.DocumentRef;
 import org.springframework.jdbc.core.RowMapper;

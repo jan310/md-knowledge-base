@@ -3,6 +3,8 @@ package com.janondra.mdknowledgebase.user.repository;
 import com.janondra.mdknowledgebase.user.model.CreateUser;
 import com.janondra.mdknowledgebase.user.model.ModifyUser;
 import com.janondra.mdknowledgebase.user.model.User;
+import com.janondra.mdknowledgebase.user.repository.exceptions.EmailAlreadyInUseException;
+import com.janondra.mdknowledgebase.user.repository.rowmappers.UserRowMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;

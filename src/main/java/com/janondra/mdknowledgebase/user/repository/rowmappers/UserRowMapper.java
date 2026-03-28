@@ -1,4 +1,4 @@
-package com.janondra.mdknowledgebase.user.repository;
+package com.janondra.mdknowledgebase.user.repository.rowmappers;
 
 import com.janondra.mdknowledgebase.user.model.User;
 import org.springframework.jdbc.core.RowMapper;
