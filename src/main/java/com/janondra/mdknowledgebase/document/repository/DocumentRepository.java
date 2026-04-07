@@ -126,7 +126,7 @@ public class DocumentRepository {
                     SELECT id, file_name
                     FROM documents
                     WHERE owner_id = :ownerId
-                      AND tags @> :tags
+                      AND tags @> :tags::text[]
                     ORDER BY file_name
                     LIMIT :limit
                     """
@@ -143,7 +143,7 @@ public class DocumentRepository {
                     SELECT id, file_name
                     FROM documents
                     WHERE owner_id = :ownerId
-                      AND tags @> :tags
+                      AND tags @> :tags::text[]
                       AND file_name > :lastFileName
                     ORDER BY file_name
                     LIMIT :limit
