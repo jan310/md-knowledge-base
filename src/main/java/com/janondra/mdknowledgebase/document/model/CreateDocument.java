@@ -7,6 +7,5 @@ public record CreateDocument(
     UUID ownerId,
     String fileName,
     List<String> tags,
-    String content,
-    List<String> questions
+    String content
 ) {}

@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("com.google.genai:google-genai:1.46.0")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")

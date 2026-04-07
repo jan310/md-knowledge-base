@@ -244,7 +244,7 @@ public class DocumentRepository {
                 """
                 UPDATE documents
                 SET questions = :newQuestions
-                WHERE id = :id AND owner_id = :ownerId;
+                WHERE id = :id;
                 """
             )
             .param("id", id)

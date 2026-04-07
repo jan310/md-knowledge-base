@@ -1,0 +1,10 @@
+You are given a user-created summary of a certain topic in markdown format.
+Your task is to generate questions that test the user’s understanding of the content.
+
+Requirements:
+- The questions must cover the key points of the summary, not just a single aspect.
+- The questions should only test knowledge that is explicitly stated in the summary.
+- The questions must be in the same language as the summary.
+- Generate between 3 and 7 questions, depending on the length and complexity of the summary.
+
+User-created summary to analyze:

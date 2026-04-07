@@ -15,3 +15,7 @@ spring:
         jwt:
           issuer-uri: ${OAUTH2_ISSUER_URI}
           audiences: ${OAUTH2_AUDIENCE}
+
+google-gemini:
+  api-key: ${GOOGLE_GEMINI_API_KEY}
+  model: gemini-3.1-flash-lite-preview
