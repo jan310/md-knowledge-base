@@ -65,7 +65,8 @@ public class UserRepository {
                     email,
                     time_zone,
                     daily_mail_enabled,
-                    daily_mail_time
+                    daily_mail_time,
+                    daily_mail_tags
                 FROM users
                 WHERE auth_id = :authId;
                 """
@@ -89,17 +90,17 @@ public class UserRepository {
                 .sql(
                     """
                     UPDATE users SET
-                        email = :email,
                         time_zone = :timeZone,
                         daily_mail_enabled = :dailyMailEnabled,
-                        daily_mail_time = :dailyMailTime
+                        daily_mail_time = :dailyMailTime,
+                        daily_mail_tags = :dailyMailTags
                     WHERE auth_id = :authId;
                     """
                 )
-                .param("email", modifyUser.email())
                 .param("timeZone", modifyUser.timeZone())
                 .param("dailyMailEnabled", modifyUser.dailyMailEnabled())
                 .param("dailyMailTime", modifyUser.dailyMailTime())
+                .param("dailyMailTags", modifyUser.dailyMailTags().toArray(String[]::new))
                 .param("authId", modifyUser.authId())
                 .update();
         } catch (DataIntegrityViolationException e) {

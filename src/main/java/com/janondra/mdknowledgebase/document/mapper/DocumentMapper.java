@@ -5,6 +5,7 @@ import com.janondra.mdknowledgebase.document.controller.dto.ResponseDocumentDTO;
 import com.janondra.mdknowledgebase.document.model.CreateDocument;
 import com.janondra.mdknowledgebase.document.model.Document;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class DocumentMapper {
@@ -13,7 +14,7 @@ public class DocumentMapper {
         return new CreateDocument(
             ownerId,
             createDocumentDTO.fileName(),
-            createDocumentDTO.tags(),
+            createDocumentDTO.tags().stream().map(s -> s.toLowerCase(Locale.ROOT)).toList(),
             createDocumentDTO.content()
         );
     }

@@ -272,16 +272,24 @@ public class DocumentRepository {
                     FROM users u
                     INNER JOIN LATERAL (
                         SELECT count(*) as total
-                        FROM documents
-                        WHERE owner_id = u.id
-                          AND questions <> '{}'
-                    ) cnt ON true
+                        FROM documents d
+                        WHERE d.owner_id = u.id
+                          AND d.questions <> '{}'
+                          AND (
+                              u.daily_mail_tags = '{}'
+                              OR d.tags && u.daily_mail_tags
+                          )
+                    ) cnt ON cnt.total > 0
                     INNER JOIN LATERAL (
                         SELECT d.file_name, d.content, d.questions
                         FROM documents d
                         WHERE d.owner_id = u.id
-                          AND questions <> '{}'
-                        OFFSET floor(random() * GREATEST(cnt.total, 1))
+                          AND d.questions <> '{}'
+                          AND (
+                              u.daily_mail_tags = '{}'
+                              OR d.tags && u.daily_mail_tags
+                          )
+                        OFFSET floor(random() * cnt.total)
                         LIMIT 1
                     ) d_random ON true
                     WHERE

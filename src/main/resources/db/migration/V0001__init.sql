@@ -2,12 +2,14 @@
 CREATE TABLE IF NOT EXISTS users (
     id                      UUID        PRIMARY KEY DEFAULT uuidv7(),
     auth_id                 TEXT        NOT NULL UNIQUE,
-    email                   TEXT        NOT NULL UNIQUE,
+    email                   TEXT        NOT NULL,
     time_zone               TEXT        NOT NULL,
     daily_mail_enabled      BOOLEAN     NOT NULL DEFAULT false,
     daily_mail_time         TIME        NOT NULL DEFAULT '06:00:00',
+    daily_mail_tags         TEXT[]      NOT NULL DEFAULT '{}',
     created_at              timestamptz NOT NULL DEFAULT now(),
-    updated_at              timestamptz NOT NULL DEFAULT now()
+    updated_at              timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT uq_users_email UNIQUE (email)
 );
 
 CREATE TABLE IF NOT EXISTS documents (

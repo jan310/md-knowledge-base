@@ -1,6 +1,7 @@
 package com.janondra.mdknowledgebase.user.model;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 public record User(
@@ -9,5 +10,6 @@ public record User(
     String email,
     String timeZone,
     boolean dailyMailEnabled,
-    LocalTime dailyMailTime
+    LocalTime dailyMailTime,
+    List<String> dailyMailTags
 ) {}
