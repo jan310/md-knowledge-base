@@ -15,6 +15,9 @@ spring:
         jwt:
           issuer-uri: ${OAUTH2_ISSUER_URI}
           audiences: ${OAUTH2_AUDIENCE}
+  threads:
+    virtual:
+      enabled: true
 
 google-gemini:
   api-key: ${GOOGLE_GEMINI_API_KEY}
