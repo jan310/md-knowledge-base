@@ -1,10 +1,8 @@
 package com.janondra.mdknowledgebase.user.mapper;
 
-import com.janondra.mdknowledgebase.user.controller.dto.CreateUserDTO;
-import com.janondra.mdknowledgebase.user.controller.dto.ModifyUserDTO;
+import com.janondra.mdknowledgebase.user.controller.dto.UpdateUserDTO;
 import com.janondra.mdknowledgebase.user.controller.dto.UserResponseDTO;
-import com.janondra.mdknowledgebase.user.model.CreateUser;
-import com.janondra.mdknowledgebase.user.model.ModifyUser;
+import com.janondra.mdknowledgebase.user.model.UpdateUser;
 import com.janondra.mdknowledgebase.user.model.User;
 
 import java.util.Locale;
@@ -21,21 +19,13 @@ public class UserMapper {
         );
     }
 
-    public static CreateUser toCreateUser(String authId, CreateUserDTO createUserDTO) {
-        return new CreateUser(
+    public static UpdateUser toUpdateUser(String authId, UpdateUserDTO updateUserDTO) {
+        return new UpdateUser(
             authId,
-            createUserDTO.email().toLowerCase(Locale.ROOT),
-            createUserDTO.timeZone()
-        );
-    }
-
-    public static ModifyUser toModifyUser(String authId, ModifyUserDTO modifyUserDTO) {
-        return new ModifyUser(
-            authId,
-            modifyUserDTO.timeZone(),
-            modifyUserDTO.dailyMailEnabled(),
-            modifyUserDTO.dailyMailTime(),
-            modifyUserDTO.dailyMailTags().stream().map(s -> s.toLowerCase(Locale.ROOT)).toList()
+            updateUserDTO.timeZone(),
+            updateUserDTO.dailyMailEnabled(),
+            updateUserDTO.dailyMailTime(),
+            updateUserDTO.dailyMailTags().stream().map(s -> s.toLowerCase(Locale.ROOT)).toList()
         );
     }
 

@@ -1,14 +1,19 @@
+authorization-server:
+  domain: ${AUTH_SERVER_DOMAIN}
+  client-id: ${AUTH_SERVER_CLIENT_ID}
+  client-secret: ${AUTH_SERVER_CLIENT_SECRET}
+
+google-gemini:
+  api-key: ${GOOGLE_GEMINI_API_KEY}
+  model: gemini-3.1-flash-lite
+
 spring:
   application:
     name: md-knowledge-base
-  cache:
-    cache-names: userIdCache
-    caffeine:
-      spec: maximumSize=1000,expireAfterWrite=60m
   datasource:
-    url: ${POSTGRES_URL}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   security:
     oauth2:
       resourceserver:
@@ -18,7 +23,3 @@ spring:
   threads:
     virtual:
       enabled: true
-
-google-gemini:
-  api-key: ${GOOGLE_GEMINI_API_KEY}
-  model: gemini-3.1-flash-lite-preview

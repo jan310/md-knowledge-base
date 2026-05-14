@@ -14,7 +14,6 @@ public class UserRowMapper implements RowMapper<User> {
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(
             rs.getObject("id", UUID.class),
-            rs.getString("auth_id"),
             rs.getString("email"),
             rs.getString("time_zone"),
             rs.getBoolean("daily_mail_enabled"),

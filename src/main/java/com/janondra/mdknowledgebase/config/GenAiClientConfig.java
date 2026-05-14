@@ -8,11 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GenAiClientConfig {
 
-    @Value("${google-gemini.api-key}")
-    private String apiKey;
-
     @Bean
-    public Client client() {
+    public Client client(@Value("${google-gemini.api-key}") String apiKey) {
         return Client.builder().apiKey(apiKey).build();
     }
 

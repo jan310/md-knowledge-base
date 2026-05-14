@@ -4,7 +4,6 @@ import com.janondra.mdknowledgebase.user.service.UserService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -32,10 +31,9 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
         @NonNull NativeWebRequest webRequest,
         WebDataBinderFactory binderFactory
     ) {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var authToken = (JwtAuthenticationToken) authentication;
-        assert authToken != null;
-        var authId = authToken.getToken().getSubject();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        assert auth != null;
+        var authId = auth.getName();
 
         return userService.getUserIdByAuthId(authId);
     }

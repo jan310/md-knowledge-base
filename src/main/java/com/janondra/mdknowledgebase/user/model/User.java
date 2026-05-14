@@ -6,10 +6,21 @@ import java.util.UUID;
 
 public record User(
     UUID id,
-    String authId,
     String email,
     String timeZone,
     boolean dailyMailEnabled,
     LocalTime dailyMailTime,
     List<String> dailyMailTags
-) {}
+) {
+
+    public User withEmail(String email) {
+        return new User(
+            id,
+            email,
+            timeZone,
+            dailyMailEnabled,
+            dailyMailTime,
+            dailyMailTags
+        );
+    }
+}

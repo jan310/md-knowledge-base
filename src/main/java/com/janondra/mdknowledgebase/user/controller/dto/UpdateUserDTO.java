@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalTime;
 import java.util.List;
 
-public record ModifyUserDTO(
+public record UpdateUserDTO(
     @ValidTimeZone String timeZone,
     boolean dailyMailEnabled,
     @ValidQuarterHour LocalTime dailyMailTime,

@@ -1,22 +1,21 @@
 package com.janondra.mdknowledgebase.user.controller;
 
-import com.janondra.mdknowledgebase.user.controller.dto.CreateUserDTO;
-import com.janondra.mdknowledgebase.user.controller.dto.ModifyUserDTO;
+import com.janondra.mdknowledgebase.user.controller.dto.UpdateEmailDTO;
+import com.janondra.mdknowledgebase.user.controller.dto.UpdateUserDTO;
 import com.janondra.mdknowledgebase.user.controller.dto.UserResponseDTO;
 import com.janondra.mdknowledgebase.user.mapper.UserMapper;
-import com.janondra.mdknowledgebase.user.resolver.AuthId;
 import com.janondra.mdknowledgebase.user.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -30,46 +29,44 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    @ResponseStatus(CREATED)
-    public void createUser(
-        @AuthId String authId,
-        @RequestBody @Valid CreateUserDTO createUserDTO
-    ) {
-        userService.createUser(
-            UserMapper.toCreateUser(
-                authId,
-                createUserDTO
-            )
-        );
-    }
-
-    @GetMapping
+    @PutMapping("/me/sync")
     @ResponseStatus(OK)
-    public UserResponseDTO getUser(@AuthId String authId) {
+    public UserResponseDTO syncUser(@AuthenticationPrincipal Jwt jwt) {
         return UserMapper.toUserResponseDTO(
-            userService.getUser(authId)
-        );
-    }
-
-    @PutMapping
-    @ResponseStatus(NO_CONTENT)
-    public void modifyUser(
-        @AuthId String authId,
-        @RequestBody @Valid ModifyUserDTO modifyUserDTO
-    ) {
-        userService.modifyUser(
-            UserMapper.toModifyUser(
-                authId,
-                modifyUserDTO
+            userService.syncUser(
+                jwt.getSubject(),
+                jwt.getClaimAsString("https://md-know-base.com/email")
             )
         );
     }
 
-    @DeleteMapping
+    @PatchMapping("/me/email")
     @ResponseStatus(NO_CONTENT)
-    public void deleteUser(@AuthId String authId) {
-        userService.deleteUser(authId);
+    public void updateUserEmail(
+        @AuthenticationPrincipal Jwt jwt,
+        @RequestBody UpdateEmailDTO updateEmailDTO
+    ) {
+        userService.updateUserEmail(jwt.getSubject(), updateEmailDTO.email());
+    }
+
+    @PatchMapping("/me")
+    @ResponseStatus(NO_CONTENT)
+    public void updateUser(
+        @AuthenticationPrincipal Jwt jwt,
+        @RequestBody @Valid UpdateUserDTO updateUserDTO
+    ) {
+        userService.updateUser(
+            UserMapper.toUpdateUser(
+                jwt.getSubject(),
+                updateUserDTO
+            )
+        );
+    }
+
+    @DeleteMapping("/me")
+    @ResponseStatus(NO_CONTENT)
+    public void deleteUser(@AuthenticationPrincipal Jwt jwt) {
+        userService.deleteUser(jwt.getSubject());
     }
 
 }

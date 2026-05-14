@@ -1,6 +1,5 @@
 package com.janondra.mdknowledgebase.config;
 
-import com.janondra.mdknowledgebase.user.resolver.AuthIdArgumentResolver;
 import com.janondra.mdknowledgebase.document.resolver.UserIdArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -10,21 +9,14 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    private final AuthIdArgumentResolver authIdArgumentResolver;
     private final UserIdArgumentResolver userIdArgumentResolver;
 
-    public WebConfig(
-        AuthIdArgumentResolver authIdArgumentResolver,
-        UserIdArgumentResolver userIdArgumentResolver
-    ) {
-        this.authIdArgumentResolver = authIdArgumentResolver;
+    public WebConfig(UserIdArgumentResolver userIdArgumentResolver) {
         this.userIdArgumentResolver = userIdArgumentResolver;
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(authIdArgumentResolver);
         resolvers.add(userIdArgumentResolver);
     }
 
