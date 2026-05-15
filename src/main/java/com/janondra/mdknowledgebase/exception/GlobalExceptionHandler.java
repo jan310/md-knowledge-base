@@ -4,6 +4,7 @@ import com.janondra.mdknowledgebase.user.exception.EmailAlreadyInUseException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,13 @@ public class GlobalExceptionHandler {
     public ErrorDTO handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         logWarn(e, request);
         return new ErrorDTO("Invalid request argument(s) provided.");
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(CONFLICT)
+    public ErrorDTO handleDataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
+        logWarn(e, request);
+        return new ErrorDTO("The request could not be completed because it conflicts with existing data.");
     }
 
     @ExceptionHandler(EmailAlreadyInUseException.class)

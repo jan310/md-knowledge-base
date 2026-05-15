@@ -29,7 +29,7 @@ public class AuthManagementService {
             if (e.statusCode() == 400) {
                 throw new EmailAlreadyInUseException("Email '%s' is already in use.".formatted(email), e);
             }
-            throw new RuntimeException("An error occurred while updating a user's email address.", e);
+            throw e;
         }
     }
 
