@@ -221,7 +221,7 @@ public class DocumentRepository {
             .update();
     }
 
-    public void updateDocumentContent(UUID id, UUID ownerId, String newContent) {
+    public void updateDocumentContentAndClearQuestions(UUID id, UUID ownerId, String newContent) {
         jdbcClient
             .sql(
                 """
