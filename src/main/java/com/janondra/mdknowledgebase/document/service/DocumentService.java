@@ -47,4 +47,21 @@ public class DocumentService {
         return documentRepository.getDocumentRefsByOwnerIdAndSearchText(ownerId, searchText, pageSize, offset);
     }
 
+    public void updateDocumentFilename(UUID id, UUID ownerId, String newFileName) {
+        documentRepository.updateDocumentFilename(id, ownerId, newFileName);
+    }
+
+    public void updateDocumentTags(UUID id, UUID ownerId, List<String> newTags) {
+        documentRepository.updateDocumentTags(id, ownerId, newTags);
+    }
+
+    public void updateDocumentContentAndQuestions(UUID id, UUID ownerId, String newContent) {
+        documentRepository.updateDocumentContentAndClearQuestions(id, ownerId, newContent);
+        documentEnrichmentService.generateAndSaveQuestions(id, newContent);
+    }
+
+    public void deleteDocument(UUID id, UUID ownerId) {
+        documentRepository.deleteDocument(id, ownerId);
+    }
+
 }

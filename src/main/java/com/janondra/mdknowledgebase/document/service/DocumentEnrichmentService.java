@@ -22,7 +22,7 @@ import java.util.UUID;
 @Service
 public class DocumentEnrichmentService {
 
-    private static final Logger log = LoggerFactory.getLogger(DocumentEnrichmentService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DocumentEnrichmentService.class);
 
     private final String genAiModel;
     private final String promptTemplate;
@@ -56,20 +56,20 @@ public class DocumentEnrichmentService {
 
             String genAiResponseContent = genAiResponse.text();
             if (genAiResponseContent == null || genAiResponseContent.isBlank()) {
-                log.warn("AI provided an empty response for document {}", documentId);
+                logger.warn("AI provided an empty response for document {}", documentId);
                 return;
             }
 
             List<String> questions = jsonMapper.readValue(genAiResponseContent, QuestionsWrapper.class).questions();
 
             if (questions == null || questions.isEmpty()) {
-                log.warn("AI returned an empty list of questions for document {}", documentId);
+                logger.warn("AI returned an empty list of questions for document {}", documentId);
                 return;
             }
 
             documentRepository.updateDocumentQuestions(documentId, questions);
         } catch (Exception e) {
-            log.error("Error occurred while generating questions for document {}: {}", documentId, e.getMessage(), e);
+            logger.error("Error occurred while generating questions for document {}: {}", documentId, e.getMessage(), e);
         }
     }
 
