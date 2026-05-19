@@ -3,6 +3,7 @@ package com.janondra.mdknowledgebase.document.repository;
 import com.janondra.mdknowledgebase.document.model.CreateDocument;
 import com.janondra.mdknowledgebase.document.model.DailyMailTarget;
 import com.janondra.mdknowledgebase.document.model.Document;
+import com.janondra.mdknowledgebase.document.model.DocumentContent;
 import com.janondra.mdknowledgebase.document.model.DocumentRef;
 import com.janondra.mdknowledgebase.helper.DatabaseIntegrationTest;
 import org.junit.jupiter.api.Nested;
@@ -666,6 +667,48 @@ class DocumentRepositoryTest extends DatabaseIntegrationTest {
             documentRepository.deleteDocument(UUID.randomUUID(), ownerId);
 
             assertThat(findPersistedDocument(documentId).fileName()).isEqualTo("delete.md");
+        }
+
+    }
+
+    @Nested
+    class GetDocumentsWithoutQuestions {
+
+        @Test
+        void returnsDocumentsWithEmptyQuestionsAcrossOwners() {
+            UUID ownerId = insertUser("without-questions-owner-id", "without-questions-owner@example.com");
+            UUID otherOwnerId = insertUser("other-without-questions-owner-id", "other-without-questions-owner@example.com");
+            UUID firstDocumentId = documentRepository.saveDocument(
+                new CreateDocument(ownerId, "first-without-questions.md", List.of("java"), "First content")
+            );
+            UUID secondDocumentId = documentRepository.saveDocument(
+                new CreateDocument(otherOwnerId, "second-without-questions.md", List.of("spring"), "Second content")
+            );
+            UUID documentWithQuestionsId = documentRepository.saveDocument(
+                new CreateDocument(ownerId, "with-questions.md", List.of("jdbc"), "Answered content")
+            );
+            documentRepository.updateDocumentQuestions(documentWithQuestionsId, List.of("Existing question?"));
+
+            List<DocumentContent> documentsWithoutQuestions = documentRepository.getDocumentsWithoutQuestions();
+
+            assertThat(documentsWithoutQuestions)
+                .containsExactlyInAnyOrder(
+                    new DocumentContent(firstDocumentId, "First content"),
+                    new DocumentContent(secondDocumentId, "Second content")
+                );
+        }
+
+        @Test
+        void returnsEmptyListWhenEveryDocumentHasQuestions() {
+            UUID ownerId = insertUser("all-questions-owner-id", "all-questions-owner@example.com");
+            UUID documentId = documentRepository.saveDocument(
+                new CreateDocument(ownerId, "with-questions.md", List.of("java"), "Answered content")
+            );
+            documentRepository.updateDocumentQuestions(documentId, List.of("Question?"));
+
+            List<DocumentContent> documentsWithoutQuestions = documentRepository.getDocumentsWithoutQuestions();
+
+            assertThat(documentsWithoutQuestions).isEmpty();
         }
 
     }

@@ -3,8 +3,10 @@ package com.janondra.mdknowledgebase.document.repository;
 import com.janondra.mdknowledgebase.document.model.CreateDocument;
 import com.janondra.mdknowledgebase.document.model.DailyMailTarget;
 import com.janondra.mdknowledgebase.document.model.Document;
+import com.janondra.mdknowledgebase.document.model.DocumentContent;
 import com.janondra.mdknowledgebase.document.model.DocumentRef;
 import com.janondra.mdknowledgebase.document.repository.rowmappers.DailyMailTargetRowMapper;
+import com.janondra.mdknowledgebase.document.repository.rowmappers.DocumentContentRowMapper;
 import com.janondra.mdknowledgebase.document.repository.rowmappers.DocumentRefRowMapper;
 import com.janondra.mdknowledgebase.document.repository.rowmappers.DocumentRowMapper;
 import org.jspecify.annotations.Nullable;
@@ -21,6 +23,7 @@ public class DocumentRepository {
     private static final DocumentRowMapper documentRowMapper = new DocumentRowMapper();
     private static final DocumentRefRowMapper documentRefRowMapper = new DocumentRefRowMapper();
     private static final DailyMailTargetRowMapper dailyMailTargetRowMapper = new DailyMailTargetRowMapper();
+    private static final DocumentContentRowMapper documentContentRowMapper = new DocumentContentRowMapper();
 
     private final JdbcClient jdbcClient;
 
@@ -258,6 +261,13 @@ public class DocumentRepository {
             .param("id", id)
             .param("ownerId", ownerId)
             .update();
+    }
+
+    public List<DocumentContent> getDocumentsWithoutQuestions() {
+        return jdbcClient
+            .sql("SELECT id, content FROM documents WHERE cardinality(questions) = 0;")
+            .query(documentContentRowMapper)
+            .list();
     }
 
     public List<DailyMailTarget> getDailyMailTargets(OffsetDateTime utcDateTime) {

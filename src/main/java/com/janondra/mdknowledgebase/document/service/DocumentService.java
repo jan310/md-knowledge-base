@@ -1,12 +1,15 @@
 package com.janondra.mdknowledgebase.document.service;
 
 import com.janondra.mdknowledgebase.document.model.CreateDocument;
+import com.janondra.mdknowledgebase.document.model.DailyMailTarget;
 import com.janondra.mdknowledgebase.document.model.Document;
+import com.janondra.mdknowledgebase.document.model.DocumentContent;
 import com.janondra.mdknowledgebase.document.model.DocumentRef;
 import com.janondra.mdknowledgebase.document.repository.DocumentRepository;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,6 +65,14 @@ public class DocumentService {
 
     public void deleteDocument(UUID id, UUID ownerId) {
         documentRepository.deleteDocument(id, ownerId);
+    }
+
+    public List<DocumentContent> getDocumentsWithoutQuestions() {
+        return documentRepository.getDocumentsWithoutQuestions();
+    }
+
+    public List<DailyMailTarget> getDailyMailTargets(OffsetDateTime utcDateTime) {
+        return documentRepository.getDailyMailTargets(utcDateTime);
     }
 
 }
