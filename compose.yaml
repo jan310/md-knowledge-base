@@ -1,0 +1,29 @@
+services:
+
+  postgres:
+    image: postgres:18.3-alpine3.23
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+  
+  md-knowledge-base:
+    image: jan310/md-knowledge-base:1.0
+    container_name: md-knowledge-base
+    ports:
+      - "8080:8080"
+    environment:
+      AUTH_SERVER_DOMAIN: ${AUTH_SERVER_DOMAIN}
+      AUTH_SERVER_CLIENT_ID: ${AUTH_SERVER_CLIENT_ID}
+      AUTH_SERVER_CLIENT_SECRET: ${AUTH_SERVER_CLIENT_SECRET}
+      GOOGLE_GEMINI_API_KEY: ${GOOGLE_GEMINI_API_KEY}
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      OAUTH2_ISSUER_URI: ${OAUTH2_ISSUER_URI}
+      OAUTH2_AUDIENCE: ${OAUTH2_AUDIENCE}
