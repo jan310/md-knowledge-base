@@ -1,4 +1,4 @@
-package com.janondra.mdknowledgebase.document.resolver;
+package com.janondra.mdknowledgebase.resolver;
 
 import com.janondra.mdknowledgebase.user.service.UserService;
 import org.jspecify.annotations.NonNull;

@@ -1,4 +1,4 @@
-package com.janondra.mdknowledgebase.document.resolver;
+package com.janondra.mdknowledgebase.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

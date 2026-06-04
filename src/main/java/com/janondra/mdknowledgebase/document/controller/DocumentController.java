@@ -7,7 +7,7 @@ import com.janondra.mdknowledgebase.document.controller.dto.UpdateDocumentFilena
 import com.janondra.mdknowledgebase.document.controller.dto.UpdateDocumentTagsDTO;
 import com.janondra.mdknowledgebase.document.mapper.DocumentMapper;
 import com.janondra.mdknowledgebase.document.model.DocumentRef;
-import com.janondra.mdknowledgebase.document.resolver.UserId;
+import com.janondra.mdknowledgebase.resolver.UserId;
 import com.janondra.mdknowledgebase.document.service.DocumentService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
